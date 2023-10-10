@@ -1,134 +1,259 @@
+Project overview:
+
 "Jabal Amman" is a web application designed to cater to the needs of a specific location or community named Jabal Amman. The project aims to provide a platform that offers various services, products, and resources to residents and visitors of Jabal Amman. It serves as a centralized hub for information and interaction within the community.
-
-
-Apologies for any confusion. Based on the 29 files you have provided, I will now provide a description of the project "Jabal Amman" and its aims:
-
-"Jabal Amman" is a comprehensive web application designed to cater to the needs of a specific location or community named Jabal Amman. The project aims to provide a platform that offers various services, products, and resources to residents and visitors of Jabal Amman. It serves as a centralized hub for information and interaction within the community.
 
 Key Features and Aims:
 
-1. Services: The project includes a service management system that allows users to browse and access different services available in Jabal Amman. These services could range from everyday necessities, such as utilities and transportation, to leisure and entertainment services.
+- *Services:* The project includes a service management system that allows users to browse and access different services available in Jabal Amman. These services could range from everyday necessities, such as utilities and transportation, to leisure and entertainment services.
 
-2. Categories: The application organizes services and products into categories, making it easier for users to navigate and find specific offerings based on their interests or requirements.
+- *Categories:* The application organizes services and products into categories, making it easier for users to navigate and find specific offerings based on their interests or requirements.
 
-3. Products: In addition to services, the project incorporates a product catalog that showcases various items available within Jabal Amman. Users can explore and purchase products directly through the platform.
+- *Products:* In addition to services, the project incorporates a product catalog that showcases various items available within Jabal Amman. Users can explore and purchase products directly through the platform.
 
-4. Sliders: The application utilizes image sliders to display visually appealing content, such as promotional banners, event highlights, or community announcements. Sliders serve as an effective means of engaging users and conveying essential information.
+- *Sliders:* The application utilizes image sliders to display visually appealing content.
 
-5. Pictures: The project allows users to upload and share pictures related to Jabal Amman, fostering a sense of community involvement and visual storytelling.
+- *Pictures:* The project allows users to upload and share pictures related to Jabal Amman, fostering a sense of community involvement and visual storytelling.
 
-6. Contact Form: The web application includes a contact form that enables users to get in touch with the administrators or service providers. Users can submit inquiries, feedback, or requests for support, enhancing communication channels within the community.
+- *Contact Form:* The project includes a contact form that enables users to get in touch with the administrators or service providers. Users can submit inquiries, feedback, or requests for support, enhancing communication channels within the community.
 
-By providing a centralized platform for services, products, and community interaction, "Jabal Amman" aims to achieve the following benefits:
 
-1. Convenience: Residents and visitors of Jabal Amman can access a wide range of services and products from a single platform, simplifying their daily activities and enhancing convenience.
 
-2. Community Engagement: The project fosters a sense of community engagement by allowing users to interact through features like picture sharing, contact forms, and discussions on various topics.
+> :warning: **Warning:** This contents below ↓ contains just parts of my code.
+>                        You can access my full project files by clone it from my GitLab repository
+>                        (requires asking for my permissions  to grant you access to it):
+>                        https://gitlab.com/skandar.s1998/neoma 
 
-3. Local Economy Boost: By promoting local businesses and services, the project plays a vital role in supporting the local economy of Jabal Amman, encouraging growth and sustainability.
 
-4. Information Hub: "Jabal Amman" serves as an information hub, providing users with up-to-date details on services, products, events, and community news, ensuring they stay informed and connected.
-
-5. Seamless User Experience: The application aims to deliver a seamless and user-friendly experience, making it easy for users to navigate, explore, and engage with the available resources.
-
-Overall, "Jabal Amman" is a dynamic web application that strives to enhance the quality of life in the Jabal Amman community. By offering a comprehensive platform for services, products, and community interaction, the project aims to provide convenience, foster engagement, boost the local economy, and serve as an information hub for residents and visitors alike.
 ## Contents
+(contains descriptive parts of my code)
 
-[Graph](#graph)
+[Tables and relations](#tables-and-relations)
 
-[Authentication](#authentication)
+[Project actions and progress(graph)](#project-graph)
 
-[Store service function](#store-service)
+[Login to the dashboard functionality](#dashboard-login)
 
-[Upload file function](#upload-file)
+[Create service](#store-service)
+
+[Upload file](#upload-file)
 
 [Products API management (store & show)](#products-api)
 
-[Ckeditor (text editor) functionality (dashboard)](#Ckeditor)
-
 ["loadImage" JavaScript function (dashboard)](#loadImage)
+
+### **tables-and-relations**
+
+![Logo](/images/tables.png)
+
+For more details about the content of the tables <a href="/jabal-amman.pdf" target="_blank">Click here</a>
+
+[🔝 Back to contents](#contents)
+
+### **project-graph**
+
+This graph diagram represents the actions and progress for the project.
+
+![App Logo](/images/graph.png)
+
+[🔝 Back to contents](#contents)
 
 ### **authentication**
 ![App Logo](/images/graph.png)
 
 [🔝 Back to contents](#contents)
 
-### **authentication**
+### **dashboard-login**
 
-app\Http\Controllers\AuthController.php:
+![App Logo](/images/login.png)
 
-The constructor, this function is part of a controller class and is responsible for setting up themiddleware for authentication using Laravel Sanctum.
-This middleware ensures that the user is authenticated using the Sanctum authentication guardbefore accessing the methods.
-The $this->middleware('auth:sanctum')->only(['logout', 'user']); line specifies that the'auth:sanctum' middleware should be applied only to the 'logout' and 'user' methods.
+I used Laravel UI package in this project that provides a convenient way to generate the frontend boilerplate code for authentication views, such as login, registration, and password reset forms.
 
-```php
-    public function __construct()
-    {
-        $this->middleware('auth:api')->only(['logout']);
-    }
+I Run the following command to install the package:
+
+```shell
+composer require laravel/ui
 ```
 
-```php
-    public function register (Request $request) 
-    {
-        $request->validate([
-            'name'       => ['required', 'string'],
-            'email'      => ['required', 'string', 'email', 'unique:users'],  
-            'password'   => ['required', 'string', 'min:6', 'confirmed'],
-        ]);
+This package I used to generate the authentication views.Specifically, I utilized the following file to facilitate the login process for the admin, granting access to their dashboard.
 
-        $user = User::create([
-            'name'      => $request->name,
-            'email'     => $request->email,
-            'password'  => Hash::make($request->password),
-            'role'      => 'user',
-            'balance'   => 0,
-        ]);
+`resources/views/auth/login.blade.php`: This file contains the HTML template for the login form. It includes form fields for the username and password, along with any necessary validation error messages.
 
-        $token = $user->createToken('Proxy App')->accessToken;
-        
-        return response()->json([
-            'user' => new UserResource($user),
-            'token' => $token,
-        ], 200);
-    }
-```
+I depended on `Auth` Facade that is a core component of Laravel that provides convenient methods for user authentication. It is used to authenticate users and manage their sessions.
+
+### login functionality workflow:
+
+## Routes in `web.php`
+
+`routes\web.php`
+### Index Route
 
 ```php
-    public function login (Request $request) 
-    {
-       $request->validate([
-            'email'      => ['required', 'string', 'email'],  
-            'password'   => ['required', 'string'],
-        ]);
-
-        $user = User::where('email', $request->email)->first();
-
-        if ($user) {
-            if (Hash::check($request->password, $user->password)) {
-                $token = $user->createToken('Mega Panel App')->accessToken;
-
-                return response()->json([
-                    'user' => new UserResource($user),
-                    'token' => $token,
-                ], 200);   
-            }
-        }
-        
-        return response()->json([
-            'message' => 'email or password is incorrect.',
-            'errors' => [
-                'email' => ['email or password is incorrect.']
-            ]
-        ], 422);
-    }
+Route::get('/', [PagesController::class, 'index'])->name('index');
 ```
+This route is responsible for handling the homepage of the application. When a user visits the root URL, the `index` method of the `PagesController` will be executed.
+
+### Dashboard Route
+
+```php
+Route::get('/dashboard', [PagesController::class, 'dashboard'])->middleware(['auth'])->name('dashboard');
+```
+This route represents the dashboard page of the application. It is protected by the `'auth'` middleware, which means only authenticated users can access it. When a user visits the `/dashboard` URL, the `dashboard` method of the `PagesController` will be executed.
+
+
+## PagesController
+
+`app\Http\Controllers\PagesController.php`
+
+```php
+class PagesController extends Controller
+{
+    public function index(){
+        return redirect('/login');
+    }
+
+    public function dashboard(){
+        return view('dashboard');
+    }
+}
+```
+### `index` Method
+
+This method is responsible for handling the request to the homepage of the application. It performs a redirect to the `/login` URL. When a user visits the homepage, they will be redirected to the login page.
+
+## Authentication Route
+
+`routes\auth.php`
+
+```php
+Route::get('/login', [AuthenticatedSessionController::class, 'create'])
+                ->middleware('guest')
+                ->name('login');
+
+Route::post('/login', [AuthenticatedSessionController::class, 'store'])
+                ->middleware('guest');
+```
+### Login Route
+This route is responsible for rendering the login form. When a GET request is made to the `/login` URL, the `create` method of the `AuthenticatedSessionController` will be executed. This route is protected by the `'guest'` middleware, which ensures that only non-authenticated users can access the login page.
+
+### Login POST Route
+This route is responsible for handling the submission of the login form. When a POST request is made to the `/login` URL, the `store` method of the `AuthenticatedSessionController` will be executed. This route is also protected by the `'guest'` middleware.
+
+## AuthenticatedSessionController
+
+`app\Http\Controllers\Auth\AuthenticatedSessionController.php`
+
+```php
+class AuthenticatedSessionController extends Controller
+{
+    public function create()
+    {
+        return view('auth.login');
+    }
+
+    public function store(LoginRequest $request)
+    {
+        $request->authenticate();
+
+        $request->session()->regenerate();
+
+        return redirect()->intended(RouteServiceProvider::HOME);
+    }
+}
+```
+### `create` Method
+This method is responsible for displaying the login view. It returns the view named `'auth.login'`, which is the login form view. When this method is called, the login form will be rendered and displayed to the user.
+
+### `store` Method
+This method handles the incoming authentication request when the login form is submitted. It expects an instance of `LoginRequest` as a parameter, which contains the validation rules for the login request. The method calls the `authenticate` method on the request instance to perform the authentication. If the authentication is successful, the user's session is regenerated, and the user is redirected to the intended page (defined by `RouteServiceProvider::HOME`).
+
+## Login form view
+
+`resources\views\auth\login.blade.php`
+
+```html
+<x-layouts.guest>
+    <x-auth-card>
+        <x-slot name="logo">
+            <a href="/">
+                <img src="/img/aim.png" width="220px">
+            </a>
+        </x-slot>
+
+        <!-- Session Status -->
+        <x-auth-session-status class="mb-4" :status="session('status')" />
+
+        <!-- Validation Errors -->
+        <x-auth-validation-errors class="mb-4" :errors="$errors" />
+
+        <form method="POST" action="{{ route('login') }}">
+            @csrf
+
+            <!-- Username -->
+            <div>
+                <x-label for="username" :value="__('Username')" />
+                <x-input id="username" class="block mt-1 w-full" type="text" name="username" :value="old('username')" required autofocus />
+            </div>
+
+            <!-- Password -->
+            <div class="mt-4">
+                <x-label for="password" :value="__('Password')" />
+                <x-input id="password" class="block mt-1 w-full"
+                                type="password"
+                                name="password"
+                                required autocomplete="current-password" />
+            </div>
+
+            <!-- Remember Me -->
+            <div class="block mt-4">
+                <label for="remember_me" class="inline-flex items-center">
+                    <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" name="remember">
+                    <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
+                </label>
+            </div>
+
+            <div class="flex items-center justify-end mt-4">
+                @if (Route::has('password.request'))
+                    <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
+                        {{ __('Forgot your password?') }}
+                    </a>
+                @endif
+
+                <x-button class="ml-3">
+                    {{ __('Log in') }}
+                </x-button>
+            </div>
+        </form>
+    </x-auth-card>
+</x-layouts.guest>
+```
+
+The `login.blade.php` file contains the HTML markup for the login form view.
+This file is installed with the package `laravel/ui`.
 
 [🔝 Back to contents](#contents)
 
+## LoginRequest
+
+`app\Http\Requests\Auth\LoginRequest.php`
+
+The `LoginRequest` class extends the `FormRequest` class in Laravel and is responsible for handling validation and authentication for the login form submission.
+### `authorize` Method
+This method determines if the user is authorized to make the login request. In this case, it always returns `true`, allowing any user to make the request.
+
+### `rules` Method
+This method defines the validation rules for the login request. It specifies that the `username` and `password` fields are required and must be of type `'string'`.
+
+### `authenticate` Method
+This method attempts to authenticate the user using the provided credentials. It first ensures that the request is not rate limited by calling the `ensureIsNotRateLimited` method. Then, it uses the `Auth::attempt` method to attempt authentication using the `username` and `password` fields from the request. It also includes the `remember` value as a boolean parameter to determine if the user wants to be remembered for future sessions. If the authentication attempt fails, the method hits the rate limiter by calling `RateLimiter::hit` and throws a `ValidationException` with the error message `'auth.failed'`. If the authentication attempt succeeds, the rate limiter is cleared by calling `RateLimiter::clear`.
+
+The `LoginRequest` class handles the validation of the login form inputs and performs the authentication logic, including rate limiting to protect against brute-force attacks.
+
+[🔝 Back to contents](#contents)
+
+
 ### **store-service**
 
-app\Http\Controllers\Dashboard\ServiceController.php:
+`app\Http\Controllers\Dashboard\ServiceController.php`
 
 ```php
 public function __construct()
@@ -178,7 +303,7 @@ The function then proceeds to upload the image file using the [upload_file funct
 
 ### **upload-file**
 
-app\helpers.php:
+`app\helpers.php`
 
 ```php
 function upload_file($request_file, $prefix, $folder_name)
@@ -189,21 +314,26 @@ function upload_file($request_file, $prefix, $folder_name)
     return $folder_name . '/' . $file_to_store;
 }
 ```
-the upload_file() function takes a file, generates a unique filename, stores the file in the specified folder, and returns the relative path of the uploaded file,
-it placed into app helper class  provide common functions for various tasks,  These helper functions are globally accessible throughout the application without needing to import or instantiate any specific class.
 
-The function takes three parameters:
-1-$request_file: The file obtained from the request.
-2-$prefix: A prefix string used to create a unique filename.
-3-$folder_name: The name of the folder where the file will be stored.
+The `upload_file` function is a utility function that handles file uploads within the application. It performs the following tasks:
 
-the function returns the relative path of the uploaded file by concatenating the $folder_name and the unique filename. This path can be used to reference and retrieve the file later.
+1. Takes a file as input and generates a unique filename for storage.
+2. Stores the file in the specified folder.
+3. Returns the relative path of the uploaded file.
+
+It takes three parameters:
+
+1. `$request_file`: The file obtained from the request.
+2. `$prefix`: A prefix string used to create a unique filename.
+3. `$folder_name`: The name of the folder where the file will be stored.
+
+The function returns the relative path of the uploaded file. This path is obtained by concatenating the `$folder_name` and the unique filename generated for the file.
 
 [🔝 Back to contents](#contents)
 
 ### **products-api**
 
-routes\api.php:
+`routes\api.php`
 
 These two routes define API endpoints related to product management.
 - The first route handles retrieving a collection of all products.
@@ -215,7 +345,7 @@ Route::get('products', [ProductController::class, 'index'])->name('products.all'
 Route::get('products/{product}', [ProductController::class, 'show'])->name('products.show');
 ```
 
-app\Http\Controllers\Api\ProductController.php:
+`app\Http\Controllers\Api\ProductController.php`
 
 ```php
 class ProductController extends Controller
@@ -232,17 +362,17 @@ class ProductController extends Controller
     }
 }
 ```
-- index() method:
+- `index()` method:
     This method retrieves all products from the database, including their associated categories.
     The retrieved products are then transformed into a collection of [ProductResource](#product-resource) instances using ProductResource::collection($products).
 
-- show() method:
+- `show()` method:
     This method retrieves a single product from the database, by expecting a Product model instance to be passed as a parameter.
     The method returns the specified product as a JSON response by creating a [ProductResource](#product-resource) instance for the given $product using new ProductResource($product).
 
 ### **#product-resource**
 
-app\Http\Resources\ProductResource.php:
+`app\Http\Resources\ProductResource.php`
 
 ```php
 class ProductResource extends JsonResource
@@ -268,80 +398,12 @@ The 'category' field represents the associated category of the product. It is tr
 
 [🔝 Back to contents](#contents)
 
-### **Ckeditor**
-
-The CKEditor library is used to enhance the text editing capabilities of the contact form's description field. CKEditor is a popular WYSIWYG (What You See Is What You Get) text editor that allows users to format and style their text easily.
-
-(/images/Ckeditor.png)
-
-resources\views\dashboard\publication_create.blade.php:
-
-```html
-<x-layouts.dashboard>
-.
-.
-.
-    <x-slot name="script">
-        <script src="https://cdn.ckeditor.com/4.20.2/standard/ckeditor.js"></script>
-    </x-slot>
-.
-.
-.
-
-    <form method="post" action="{{ route('publications.store') }}" autocomplete="off" class="form-horizontal"
-        enctype="multipart/form-data">
-        @csrf
-.
-.
-.
-        <div class="row">
-            <label class="col-sm-3 col-form-label" for="input-description-en">{{ __('Description [en]') }}</label>
-            <div class="col-sm-8">
-                <div class="form-group{{ $errors->has('description[en]') ? ' has-danger' : '' }}">
-                    <textarea class="ckeditor form-control{{ $errors->has('description[en]') ? ' is-invalid' : '' }}"
-                        name="description[en]" id="input-description-en" placeholder="{{ __('Enter Description En') }}"
-                        aria-required="true">{!! old('description.en') !!}</textarea>
-                    @if ($errors->has('description[en]'))
-                        <span id="description-en-error" class="error text-danger"
-                            for="input-description-en">{{ $errors->first('description[en]') }}</span>
-                    @endif
-                </div>
-            </div>
-        </div>
-.
-.
-.
-        <button type="submit" class="btn btn-success">{{ __('Save') }}</button>
-    </form>
-</x-layouts.dashboard>
-<script>
-    var uploadUrl = "{{ route('upload') }}";
-    var csrfToken = "{{ csrf_token() }}";
-
-    CKEDITOR.replace('input-description-en', {
-        filebrowserUploadUrl: uploadUrl + "?_token=" + csrfToken,
-        filebrowserUploadMethod: 'form'
-
-    });
-</script>
-<script>
-    var uploadUrl = "{{ route('upload') }}";
-    var csrfToken = "{{ csrf_token() }}";
-
-    CKEDITOR.replace('input-description-ar', {
-        filebrowserUploadUrl: uploadUrl + "?_token=" + csrfToken,
-        filebrowserUploadMethod: 'form'
-
-    });
-</script>
-```
-[🔝 Back to contents](#contents)
-
 ### **loadImage**
 
-(/images/loadImage.png)
+![App Logo](/images/loadImage.png)
 
-resources\views\dashboard\slider_create.blade.php:
+
+`resources\views\dashboard\slider_create.blade.php`
 
 ```html
 <x-layouts.dashboard>
