@@ -57,11 +57,6 @@ This graph diagram represents the actions and progress for the project.
 
 [🔝 Back to contents](#contents)
 
-### **authentication**
-![App Logo](/images/graph.png)
-
-[🔝 Back to contents](#contents)
-
 ### **dashboard-login**
 
 ![App Logo](/images/login.png)
