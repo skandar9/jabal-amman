@@ -1,6 +1,6 @@
 Project overview:
 
-"Jabal Amman" is a web application designed to cater to the needs of a specific location or community named Jabal Amman. The project aims to provide a platform that offers various services, products, and resources to residents and visitors of Jabal Amman. It serves as a centralized hub for information and interaction within the community.
+Web application designed to cater to the needs of an publication center named Jabal Amman. The project aims to provide a platform that offers various services, products, and resources to residents and visitors of Jabal Amman.
 
 Key Features and Aims:
 
@@ -21,7 +21,7 @@ Key Features and Aims:
 > :warning: **Warning:** This contents below ↓ contains just parts of my code.
 >                        You can access my full project files by clone it from my GitLab repository
 >                        (requires asking for my permissions  to grant you access to it):
->                        https://gitlab.com/skandar.s1998/neoma 
+>                        https://gitlab.com/skandar.s1998/jabal-amman 
 
 
 ## Contents
